@@ -10,7 +10,7 @@ router = APIRouter(prefix="/login",tags=["Authetication"])
 
 @router.post("/")
 def login(user_cred:OAuth2PasswordRequestForm = Depends(),db:Session = Depends(database.get_db)):
-    user = db.query(models.User).filter(models.User.email == user_cred.username).first()
+    user = db.query(models.Owner).filter(models.Owner.email == user_cred.username).first()
     
     if not user:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,detail="Invalid Creds")

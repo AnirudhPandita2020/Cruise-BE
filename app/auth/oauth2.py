@@ -47,7 +47,7 @@ def get_current_user(token:str = Depends(oauth2_scheme),db:Session = Depends(dat
     exceptions = HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,detail = "Credential Validation Failed",headers ={"WWW-Authenicate":"Bearer"})
     
     token = verifytoken(token,exceptions=exceptions)
-    user = db.query(models.User).filter(models.User.id == token.id).first()
+    user = db.query(models.Owner).filter(models.Owner.id == token.id).first()
     
     return user
         
