@@ -33,6 +33,9 @@ class SystemCreate(BaseModel):
     name:str
     in_user:Optional[bool] =False
     
+class freeSystem(BaseModel):
+    in_user:Optional[bool] = False
+    
 class UserAdd(BaseModel):
     name:str
     phone:str
@@ -40,9 +43,13 @@ class UserAdd(BaseModel):
     
 class History(BaseModel):
     name:str
-    system_id:int
+    systemid:int
+    phone:str
     class Config:
         orm_mode = True
+        
+class setEndtime(BaseModel):
+    endTime:Optional[str] ="0"
     
 class Token(BaseModel):
     access_token:str

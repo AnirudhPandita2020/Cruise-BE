@@ -1,10 +1,14 @@
 
+from collections import defaultdict
+from datetime import datetime
+from email.policy import default
 from app.models import database,models
 from sqlalchemy.orm import Session
 from app.models import schemas
 from app.auth import oauth2
 from fastapi import APIRouter,Depends,HTTPException,status
 import json
+import time
 
 router = APIRouter(prefix="/users",tags=["USER"])
     
@@ -23,8 +27,20 @@ async def add_user(user:schemas.UserAdd,
             "message":"User is already occupied",
             "status":1
         })
+    if not db.query(
+        models.Systems
+    ).filter(
+        models.Systems.in_user == False,
+        models.Systems.id == user.system_id
+    ).first():
+        return {
+            "message":"System is busy",
+            "status":1
+        }
     
     new_user = models.User(**user.dict())
+    new_user.startTime = str(time.time())
+    new_user.endTime = "0"
     system_to_allot = db.query(
         models.Systems
     ).filter(
@@ -61,6 +77,17 @@ async def add_user(user:schemas.UserAdd,
     db.commit()
         
     db.add(new_user)
+    db.commit()
+    db.refresh(new_user)
+    
+    add_history = models.History()
+    
+    add_history.systemid = user.system_id
+    add_history.phone = user.phone
+    add_history.name = user.name
+    add_history.ownerid = get_current_owner.id
+    
+    db.add(add_history)
     db.commit()
     db.refresh(new_user)
     

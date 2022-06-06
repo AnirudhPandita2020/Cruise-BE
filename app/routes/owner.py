@@ -18,7 +18,10 @@ async def add_owner(owner:schemas.OwnerCreate,
     ).first()
     
     if exists_owner:
-        raise HTTPException(status_code=status.HTTP_409_CONFLICT,detail="Owner is already present")
+        return {
+        "message":"Owner already present",
+        "status":1
+    }
     
     owner.password = utils.hash(owner.password)
     new_owner = models.Owner(**owner.dict())

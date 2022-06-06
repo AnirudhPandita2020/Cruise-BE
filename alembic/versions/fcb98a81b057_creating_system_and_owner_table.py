@@ -30,17 +30,24 @@ def upgrade():
         sa.Column('name',sa.String(),nullable = False),
         sa.Column('added_at',sa.TIMESTAMP(timezone=True),nullable = False,server_default = sa.text('now()')),
         sa.Column('ownerid',sa.Integer(),sa.ForeignKey('owner.id',ondelete="CASCADE"),nullable = False),
-        sa.Column('in_user',sa.Boolean,nullable = False,server_default = 'False')
+        sa.Column('in_user',sa.Boolean,nullable = False,server_default = 'False'),
+        
     )
     
     op.create_table(
         'user',
         sa.Column('name',sa.String(),nullable = False),
         sa.Column('phone',sa.String(length=10),nullable = False,primary_key = True),
-        sa.Column('system_id',sa.Integer(),sa.ForeignKey('System.id',ondelete="CASCADE"),nullable = False)
+        sa.Column('system_id',sa.Integer(),sa.ForeignKey('System.id',ondelete="CASCADE"),nullable = False),
+        sa.Column('startTime',sa.String(),nullable = False),
+        sa.Column('endTime',sa.String(),nullable = False)
     )
     op.create_table(
         'History',
+        sa.Column(
+            'name',
+            sa.String(),
+            nullable = False),
         sa.Column(
             'systemid',
             sa.Integer(),
@@ -58,6 +65,11 @@ def upgrade():
             ),
             nullable = False,
             primary_key = True
+        ),
+        sa.Column(
+            'ownerid',
+            sa.Integer(),
+            nullable = False
         )
     )
 

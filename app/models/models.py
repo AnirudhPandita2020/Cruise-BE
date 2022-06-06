@@ -26,8 +26,12 @@ class User(Base):
     name = Column(String,nullable = False)
     phone = Column(String(length=10),nullable =False,primary_key = True)
     system_id = Column(Integer,ForeignKey('System.id',ondelete="CASCADE"),nullable = False)
+    startTime = Column(String,nullable = False)
+    endTime = Column(String,nullable = False)
     
 class History(Base):
     __tablename__ = "History"
+    name = Column(String,nullable = False)
     systemid = Column(Integer,ForeignKey('System.id',ondelete="CASCADE"),primary_key = True,nullable = False)
-    userid = Column(Integer,ForeignKey('user.id',ondelete="CASCADE"),nullable = False,primary_key = True)
+    phone = Column(Integer,ForeignKey('user.phone',ondelete="CASCADE"),nullable = False,primary_key = True)
+    ownerid = Column(Integer,nullable = False)
