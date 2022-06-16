@@ -1,14 +1,24 @@
 
-
-from operator import mod
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from .routes import user,System,history,owner
 from app.auth import auth
-from  app.models.database import engine
 from app.models import models
 
-app = FastAPI()
+description = """
+[ base url : http://127.0.0.1:8000/ ]
+"""
+
+app = FastAPI(
+    title="Cruise",
+    description=description,
+    version="1.0.1",
+    contact={
+        "name": "Anirudh Pandita",
+        "url": "https://www.linkedin.com/in/anirudh-pandita-a0b532200/",
+        "email": "kppkanu@gmail.com",
+    }
+)
 
 
 app.add_middleware(
