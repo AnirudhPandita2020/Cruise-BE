@@ -1,9 +1,7 @@
-
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from .routes import user,System,history,owner
+from routes import user, System, history, owner
 from app.auth import auth
-from app.models import models
 
 description = """
 [ base url : http://127.0.0.1:8000/ ]
@@ -20,7 +18,6 @@ app = FastAPI(
     }
 )
 
-
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -33,6 +30,8 @@ app.include_router(auth.router)
 app.include_router(System.router)
 app.include_router(history.router)
 app.include_router(owner.router)
+
+
 @app.get("/")
 async def root():
-    return {"Message":"Type /docs in endpoint"}
+    return {"Message": "Type /docs in endpoint"}
