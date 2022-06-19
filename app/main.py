@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from routes import user, System, history, owner
+from app.routes import user, System, history, owner
 from app.auth import auth
 
 description = """
@@ -32,6 +32,6 @@ app.include_router(history.router)
 app.include_router(owner.router)
 
 
-@app.get("/")
+@app.get("/",include_in_schema=False)
 async def root():
     return {"Message": "Type /docs in endpoint"}

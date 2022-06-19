@@ -51,7 +51,7 @@ async def get_systems(db: Session = Depends(database.get_db),
     return system_list
 
 
-@router.put("{id}", status_code=status.HTTP_200_OK)
+@router.put("/{id}", status_code=status.HTTP_200_OK)
 async def free_system(id: int, system: schemas.SystemCreate,
                       db: Session = Depends(database.get_db),
                       get_current_user: int = Depends(oauth2.get_current_user)):
